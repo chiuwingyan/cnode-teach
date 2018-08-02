@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bulid:client": "webpack --config build/webpack.config.client.js",
+    "bulid:client": "webpack --mode production --config build/webpack.config.client.dev.js",
     "bulid:server": "webpack --config build/webpack.config.server.js",
+    "dev:client": "webpack-dev-server --config build/webpack.config.client.dev.js",
     "clear": "rimraf dist",
-    "bulid": "npm run clear && npm run bulid:client && npm run bulid:server",
-    "start":"node server/server.js"
+    "build": "npm run clear && npm run bulid:client && npm run bulid:server",
+    "start": "node server/server.js"
   },
   "author": "chiuwingyan",
   "license": "ISC",
@@ -30,6 +31,7 @@
     "babel-preset-react": "^6.24.1",
     "html-webpack-plugin": "^3.2.0",
     "rimraf": "^2.6.2",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   }
 }

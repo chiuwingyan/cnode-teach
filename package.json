@@ -5,16 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bulid:client": "webpack --mode production --config build/webpack.config.client.dev.js",
-    "bulid:server": "webpack --config build/webpack.config.server.js",
-    "dev:client": "webpack-dev-server --config build/webpack.config.client.dev.js",
+    "build:client": "NODE_ENV=production webpack --config build/webpack.config.client.js --mode production",
+    "build:server": "webpack --config build/webpack.config.server.js",
+    "dev:client": "NODE_ENV=development  webpack-dev-server --config build/webpack.config.client.js --mode development",
+    "dev:server": "NODE_ENV=development node server/server.js",
     "clear": "rimraf dist",
-    "build": "npm run clear && npm run bulid:client && npm run bulid:server",
-    "start": "node server/server.js"
+    "build": "npm run clear && npm run bulid:client && npm run bulid:server"
   },
   "author": "chiuwingyan",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.16.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -30,6 +31,9 @@
     "babel-preset-es2015-loose": "^8.0.0",
     "babel-preset-react": "^6.24.1",
     "html-webpack-plugin": "^3.2.0",
+    "http-proxy-middleware": "^0.18.0",
+    "memory-fs": "^0.4.1",
+    "react-hot-loader": "^4.0.0",
     "rimraf": "^2.6.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"

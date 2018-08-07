@@ -37,6 +37,7 @@ const config = {
 }
 console.log('环境',process.env.NODE_ENV);
 if(isDev){
+    config.mode ='development'
     config.entry = {
         app: [
           'react-hot-loader/patch',
@@ -44,14 +45,13 @@ if(isDev){
         ]
       }
       config.devServer = {
-        host: '0.0.0.0',
         port: '8888',
         contentBase: path.join(__dirname,'../dist'),
         hotOnly:true,
         overlay: {
             errors: true
         },
-        publicPath: '/public/',  //静态资源都加上public，和output对应起来
+        //publicPath: '/public/',  //静态资源都加上public，和output对应起来
         historyApiFallback:{
             index:'/public/index.html'             //如果访问的是404，则访问此路径下的文件
         }

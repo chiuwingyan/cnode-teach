@@ -5,10 +5,12 @@ const serverConfig = require('../../build/webpack.config.server')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 const ReactDomServer = require('react-dom/server')
+const devMiddleware = require('webpack-dev-middleware') 
+const hotMiddleware = require('webpack-hot-middleware')
 
 const getTemplate = () =>{
     return new Promise((resolve, reject) => {
-        axios.get('http://0.0.0.0:8888/public/index.html')
+        axios.get('http://localhost:8888/public/index.html')
         .then(res => {
             resolve(res.data)
         })
@@ -40,10 +42,23 @@ serverCompiler.watch({},(err,stats) => {         //监听entry文件依赖的模
 })
 
 module.exports=function(app){
+    // app.use(devMiddleware(serverCompiler,{
+    //     publicPath: config.output.publicPath,
+    //     hot: true,
+    //     stats: {
+    //         colors: true
+    //     }
+    // }))
+    // app.use(hotMiddleware(serverCompiler));
     app.use('/public',proxy({
-        target: 'http://0.0.0.0:8888'
+        target: 'http://localhost:8888'
     }))
     app.get('*',function(req,res){
+        // res.writeHead(200, {
+        //     'Content-Type': 'text/event-stream',
+        //     'Cache-Control': 'no-cache',
+        //     'Connection': 'keep-alive'
+        // });
         getTemplate().then(template => {
             const content = ReactDomServer.renderToString(serverBundle);
             res.send(template.replace('<!--app-->',content))

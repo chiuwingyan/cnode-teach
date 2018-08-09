@@ -14,7 +14,7 @@ const render = Component => {
 render(App);
 
 if(module.hot){
-    module.hot.accept('./App.jsx',() => {
+    module.hot.accept(() => {
         const NextApp = require('./App.jsx').default;
         render(NextApp);
     })

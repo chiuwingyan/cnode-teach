@@ -7,7 +7,7 @@ const proxy = require('http-proxy-middleware')
 const ReactDomServer = require('react-dom/server')
 const devMiddleware = require('webpack-dev-middleware') 
 const hotMiddleware = require('webpack-hot-middleware')
-
+const express = require('express')
 const getTemplate = () =>{
     return new Promise((resolve, reject) => {
         axios.get('http://localhost:8888/public/index.html')
@@ -53,12 +53,8 @@ module.exports=function(app){
     app.use('/public',proxy({
         target: 'http://localhost:8888'
     }))
+   // app.use('http://localhost:3333/', express.static(path.join(__dirname, '../dist')))
     app.get('*',function(req,res){
-        // res.writeHead(200, {
-        //     'Content-Type': 'text/event-stream',
-        //     'Cache-Control': 'no-cache',
-        //     'Connection': 'keep-alive'
-        // });
         getTemplate().then(template => {
             const content = ReactDomServer.renderToString(serverBundle);
             res.send(template.replace('<!--app-->',content))

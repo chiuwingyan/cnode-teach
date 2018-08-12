@@ -4,6 +4,16 @@ module.exports = {
         path:path.join(__dirname,'../dist'),
         publicPath : '/public/'
     },
+    resolve:{
+        extensions:['.js','.jsx'],
+        alias: {
+            '@': path.resolve('client'),
+            'view': path.join(__dirname,'../client/view'),
+            'config': path.join(__dirname,'../client/config'),
+            'store': path.join(__dirname,'../client/store'),
+            'components': path.join(__dirname,'../client/components')
+          }
+    },
     devtool:"source-map",
     module:{
         rules:[

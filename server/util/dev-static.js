@@ -1,13 +1,13 @@
-const axios = require('axios')
+const axios = require('_axios@0.18.0@axios')
 const path = require('path')
-const webpack = require('webpack')
+const webpack = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/webpack')
 const serverConfig = require('../../build/webpack.config.server')
-const MemoryFs = require('memory-fs')
-const proxy = require('http-proxy-middleware')
-const ReactDomServer = require('react-dom/server')
-const devMiddleware = require('webpack-dev-middleware') 
-const hotMiddleware = require('webpack-hot-middleware')
-const express = require('express')
+const MemoryFs = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/memory-fs')
+const proxy = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/http-proxy-middleware')
+const ReactDomServer = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/react-dom/server')
+const devMiddleware = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/webpack-dev-middleware') 
+const hotMiddleware = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/webpack-hot-middleware')
+const express = require('../../../../../../Library/Caches/typescript/2.9/node_modules/@types/express')
 const getTemplate = () =>{
     return new Promise((resolve, reject) => {
         axios.get('http://localhost:8888/public/index.html')
@@ -53,7 +53,7 @@ module.exports=function(app){
     app.use('/public',proxy({
         target: 'http://localhost:8888'
     }))
-   // app.use('http://localhost:3333/', express.static(path.join(__dirname, '../dist')))
+ //  app.use('http://localhost:3333/', express.static(path.join(__dirname, '../dist')))
     app.get('*',function(req,res){
         getTemplate().then(template => {
             const content = ReactDomServer.renderToString(serverBundle);

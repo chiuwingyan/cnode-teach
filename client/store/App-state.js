@@ -22,8 +22,6 @@ autorun(() => {
     console.log(appState.msg)
 })
 
-setInterval(() => {
-    appState.add()
-},1000)
+
 
 export default appState

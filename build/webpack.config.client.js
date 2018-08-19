@@ -41,6 +41,9 @@ if(isDev){
         publicPath: '/public',  //静态资源都加上public，和output对应起来
         historyApiFallback:{
             index:'/public/index.html'             //如果访问的是404，则访问此路径下的文件
+        },
+        proxy: {
+            '/api':'http://localhost:3333'
         }
       }
       config.plugins.push(new webpack.HotModuleReplacementPlugin())

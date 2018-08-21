@@ -42,14 +42,6 @@ serverCompiler.watch({},(err,stats) => {         //监听entry文件依赖的模
 })
 
 module.exports=function(app){
-    // app.use(devMiddleware(serverCompiler,{
-    //     publicPath: config.output.publicPath,
-    //     hot: true,
-    //     stats: {
-    //         colors: true
-    //     }
-    // }))
-    // app.use(hotMiddleware(serverCompiler));
     app.use('/public',proxy({
         target: 'http://localhost:8888'
     }))

@@ -23,11 +23,11 @@ export default class App extends React.Component {
 
     render(){
         return[
-            <div key="link">
+            <div key="banner">
                 <Link to="/">首页</Link>
                 <Link to="/detail">详情页</Link>
             </div>,
-            <Routes key="route"/>
+            <Routes key="routes" />
         ]
     }
 }

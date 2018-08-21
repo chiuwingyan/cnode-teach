@@ -1,4 +1,4 @@
-import AppStateClass from './app-state'
+import AppStateClass from './App-state'
 
 export const AppState = AppStateClass
 

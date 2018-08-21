@@ -9,7 +9,7 @@ export default class TopicList extends React.Component{
 
     render(){
         return [
-            <div key="key">{this.props.appState.count}</div>,
+            <div key="test">test</div>,
         ]
     }
 }

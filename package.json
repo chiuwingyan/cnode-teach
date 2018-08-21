@@ -21,8 +21,6 @@
     "ejs-compiled-loader": "^1.1.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "mobx": "^5.0.3",
-    "mobx-react": "^5.2.5",
     "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-async-bootstrapper": "^2.1.1",
@@ -55,5 +53,9 @@
     "webpack-dev-server": "^3.1.5",
     "webpack-hot-middleware": "^2.22.3",
     "webpack-merge": "^4.1.4"
+  },
+  "peerDependencies": {
+    "mobx": "^5.0.3",
+    "mobx-react": "^5.2.5"
   }
 }

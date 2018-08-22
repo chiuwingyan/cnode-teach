@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const favicon = require('serve-favicon')
 const isDev = process.env.NODE_ENV === 'development'
 const app = express()
 
@@ -17,6 +18,8 @@ app.use(session({       //设置session的属性
     saveUninitialized: false,
     secret: 'react cnode class'
 }))
+
+app.use(favicon(path.join(__dirname, '../favicon.ico')))
 
 app.use('/api/user', require('./util/handle-login'))
 app.use('/api', require('./util/proxy'))

@@ -37,6 +37,7 @@ serverCompiler.watch({},(err,stats) => {         //监听entry文件依赖的模
     m._compile(bundle,'server-entry.js')          //把js的string内容解析成一个模块
     serverBundle = m.exports.default    //模块导出
     createStoreMap = m.exports.createStoreMap
+    console.log('m', serverBundle)
 })
 
 module.exports=function(app){
@@ -45,13 +46,16 @@ module.exports=function(app){
     }))
  //  app.use('http://localhost:3333/', express.static(path.join(__dirname, '../dist')))
     app.get('*',function(req,res){
-        console.log('执行了')
+        if (!serverBundle) {
+            return res.send('waiting for compile, refresh later')
+        }
         getTemplate().then(template => {
             console.log('执行了1')
             let routerContext = {}
-            const App = serverBundle(createStoreMap(),routerContext,req.url)            
-            const content = ReactDomServer.renderToString(App);
-            console.log('content', routerContext)
+         //   const App = serverBundle(createStoreMap,routerContext,req.url)   
+            console.log('serverBundle',serverBundle)         
+            const content = ReactDomServer.renderToString(serverBundle(createStoreMap, routerContext, req.url));
+            console.log('content', content)
             if (routerContext.url) {
                 res.status(302).setHeader('Location', routerContext.url);
                 res.end()

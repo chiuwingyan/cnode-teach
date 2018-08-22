@@ -10,13 +10,13 @@ import AppState from 'store/App-state'
 const root = document.getElementById('root');
 const render = Component => {
     const renderMethod = module.hot ? ReactDom.render : ReactDom.hydrate;
-    renderMethod(
+    ReactDom.render(
         <AppContainer>
-            <Provider appState={new AppState()}>
+        <Provider appState={new AppState()}>
         <BrowserRouter>
           <Component />  
-          </BrowserRouter>
-          </Provider>
+        </BrowserRouter>
+        </Provider>
         </AppContainer>
     ,root);
 }

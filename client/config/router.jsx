@@ -8,8 +8,8 @@ import TopList from 'view/topic-list/index'
 import TopDetail from 'view/topic-detail/index'
 import TestApi from 'view/test/api-test'
 export default ()=>[
-    <Route path="/" render={() => <Redirect to="/list" />} exact/>,
-    <Route ket="toplist" path="/list" component={TopList} />,
-    <Route ket="topdetail" path="/detail" component={TopDetail} />,
+    <Route  path="/" render={() => <Redirect to="/list" />} exact key="home" />,
+    <Route path="/list" component={TopList} key="toplist" />,
+    <Route path="/detail" component={TopDetail} key="topdetail" />,
     <Route path="/test" component={TestApi} key="test" />,
 ]

@@ -9,7 +9,7 @@ export default class TopicList extends React.Component{
 
     render(){
         return [
-            <div key="test">test</div>,
+            <div key="test">test {this.props.appState.msg}</div>,
         ]
     }
 }

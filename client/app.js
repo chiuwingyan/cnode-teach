@@ -4,15 +4,15 @@ import React from 'react';
 import {BrowserRouter} from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import {AppContainer} from 'react-hot-loader';
-
+import { createStoreMap } from './store/store'
 import AppState from 'store/App-state'
 //console.log('环境',process.env.NODE_ENV);
 const root = document.getElementById('root');
 const render = Component => {
     const renderMethod = module.hot ? ReactDom.render : ReactDom.hydrate;
-    ReactDom.render(
+    ReactDom.hydrate(
         <AppContainer>
-        <Provider appState={new AppState()}>
+            <Provider stores={createStoreMap()}>
         <BrowserRouter>
           <Component />  
         </BrowserRouter>

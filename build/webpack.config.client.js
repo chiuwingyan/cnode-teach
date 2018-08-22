@@ -19,6 +19,10 @@ const config = webpackMerge(baseConfig,{
         new HtmlWebpackPlugin({
             template:path.join(__dirname,'../client/index.html'),   //以这个为模板
         }),
+        new HtmlWebpackPlugin({
+            template: '!!ejs-compiled-loader!' + path.join(__dirname, '../client/server.template.ejs'),   //以这个为模板
+            filename: 'server.ejs'
+        })
     ]
 })
 console.log('环境',process.env.NODE_ENV);

@@ -11,11 +11,9 @@ import {
     observer,
     inject,
 } from 'mobx-react'
-import TopList from 'view/topic-list/index'
-import TopDetail from 'view/topic-detail/index'
-import TestApi from 'view/test/api-test'
 
-//@inject('appState') @observer
+
+
  export default class App extends React.Component {
     componentDidMount() {
         // do something here

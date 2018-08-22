@@ -9,7 +9,7 @@ useStaticRendering(true)
 
 export default (stores,routerContext,url) => {
     return (                //坑!!!教程上没有return，但是我这里不return的话，不会返回打包过后的dom节点，执行该方法得到的是空的，无法进行服务端渲染
-        <Provider {...stores}>
+        <Provider stores={stores}>
             <StaticRouter context={routerContext} location={url}>
                 <App />
             </StaticRouter>

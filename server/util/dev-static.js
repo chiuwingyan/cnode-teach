@@ -6,6 +6,8 @@ const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
 const asyncBootstrap = require('react-async-bootstrapper')
 const ReactDomServer = require('react-dom/server')
+const serialize = require('serialize-javascript')
+const ejs = require('ejs')
 const getTemplate = () =>{
     return new Promise((resolve, reject) => {
         axios.get('http://localhost:8888/public/server.ejs')
@@ -45,6 +47,7 @@ serverCompiler.watch({},(err,stats) => {         //监听entry文件依赖的模
 const getStoreState = (stores) => {
         return Object.keys(stores).reduce((result,storeName) => {
             result[storeName] = stores[storeName].toJson()
+            return result
         },{})
 }
 
@@ -73,12 +76,16 @@ module.exports=function(app){
                 console.log('stires',stores.appState.count)
                 const state = getStoreState(stores)
                 const content = ReactDomServer.renderToString(App);
-                res.send(template.replace('<!--app-->', content))
+                //res.send(template.replace('<!--app-->', content))
+                console.log('initialState', state)
+                const html = ejs.render(template,{
+                    appString: content,
+                    initialState: serialize(state)
+                })
+                res.send(html)
             })
             //console.log('serverBundle',serverBundle)         
             //console.log('content', createStoreMap())
-        }).catch((err) =>{
-            console.log(err)
         })
     })
 }

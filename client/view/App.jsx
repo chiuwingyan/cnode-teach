@@ -13,8 +13,8 @@ import {
 } from 'mobx-react'
 
 
-
- export default class App extends React.Component {
+@inject('appState') @observer
+ class App extends React.Component {
     componentDidMount() {
         // do something here
     }
@@ -32,6 +32,14 @@ import {
     componentDidUpdate(){
         console.log('update',this.props)
     }
+     bootstrap() {
+         return new Promise((resolve) => {
+             setTimeout(() => {
+                 this.props.appState.count = 3
+                 resolve(true)
+             })
+         })
+     }
     render(){
         return(
             <div className="app">
@@ -44,3 +52,6 @@ import {
         )
     }
 }
+
+
+export default withRouter(App)

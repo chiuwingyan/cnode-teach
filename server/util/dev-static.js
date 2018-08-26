@@ -4,10 +4,8 @@ const webpack = require('webpack')
 const serverConfig = require('../../build/webpack.config.server')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
-const asyncBootstrap = require('react-async-bootstrapper')
-const ReactDomServer = require('react-dom/server')
-const serialize = require('serialize-javascript')
-const ejs = require('ejs')
+const serverRender = require('./server-render')
+
 const getTemplate = () =>{
     return new Promise((resolve, reject) => {
         axios.get('http://localhost:8888/public/server.ejs')
@@ -18,7 +16,21 @@ const getTemplate = () =>{
     })
 }
 
-const Module = module.constructor
+const NativeModule = require('module')      //export.module
+const vm = require('vm')
+
+// `(function(exports, require, module, __finename, __dirname){ ...bundle code })`
+const getModuleFromString = (bundle, filename) => {
+    const m = { exports: {} }
+    const wrapper = NativeModule.wrap(bundle)
+    const script = new vm.Script(wrapper, {
+        filename: filename,
+        displayErrors: true,
+    })
+    const result = script.runInThisContext()
+    result.call(m.exports, m.exports, require, m)
+    return m
+}
  
 const mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig);   //在node中启动webpack
@@ -36,20 +48,14 @@ serverCompiler.watch({},(err,stats) => {         //监听entry文件依赖的模
     )
 
     const bundle = mfs.readFileSync(bundlePath,'utf-8')  //webpack读取出来的是字符串，需要转化为可引用的模块，采用一种hack的方式
-    const m = new Module ()
-    m._compile(bundle,'server-entry.js')          //把js的string内容解析成一个模块
-    serverBundle = m.exports.default    //模块导出
-    createStoreMap = m.exports.createStoreMap
+    //const m = new Module ()
+    const m = getModuleFromString(bundle, 'server-entry.js')     //把js的string内容解析成一个模块
+    serverBundle = m.exports    //模块导出
+   // createStoreMap = m.exports.createStoreMap
   //  console.log('m', serverBundle)
 })
 
 
-const getStoreState = (stores) => {
-        return Object.keys(stores).reduce((result,storeName) => {
-            result[storeName] = stores[storeName].toJson()
-            return result
-        },{})
-}
 
 module.exports=function(app){
     app.use('/public',proxy({
@@ -61,29 +67,8 @@ module.exports=function(app){
             return res.send('waiting for compile, refresh later')
         }
         getTemplate().then(template => {
+            return serverRender(serverBundle,template,req,res)
            // console.log('执行了1')
-            let routerContext = {}
-            const stores = createStoreMap()
-            const App = serverBundle(stores,routerContext,req.url) 
-            
-            asyncBootstrap(App).then(() => {
-                //bootstrap异步方法执行完毕后，执行完余下的渲染方法后，执行此回调。此时的App就是已经插好值的
-                if (routerContext.url) {
-                    res.status(302).setHeader('Location', routerContext.url);
-                    res.end()
-                    return
-                }
-                console.log('stires',stores.appState.count)
-                const state = getStoreState(stores)
-                const content = ReactDomServer.renderToString(App);
-                //res.send(template.replace('<!--app-->', content))
-                console.log('initialState', state)
-                const html = ejs.render(template,{
-                    appString: content,
-                    initialState: serialize(state)
-                })
-                res.send(html)
-            })
             //console.log('serverBundle',serverBundle)         
             //console.log('content', createStoreMap())
         })

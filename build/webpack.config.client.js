@@ -8,11 +8,13 @@ const isDev = process.env.NODE_ENV === 'development'
 const config = webpackMerge(baseConfig,{
     entry:{
 
-        app:path.join(__dirname,'../client/app.js')
+        app:path.join(__dirname,'../client/app.js'),
+        //vendor: ['react', 'react-router-dom', 'redux', 'react-dom', 'react-redux']  
         
     },
     output:{
         filename:'[name].[hash].js',
+        chunkFilename: '[name].[chunkhash].js'
 
     },
     plugins:[
@@ -22,8 +24,30 @@ const config = webpackMerge(baseConfig,{
         new HtmlWebpackPlugin({
             template: '!!ejs-compiled-loader!' + path.join(__dirname, '../client/server.template.ejs'),   //以这个为模板
             filename: 'server.ejs'
-        })
-    ]
+        }),
+    ],
+    optimization: {
+        // runtimeChunk: {
+        //     name: "manifest"
+        // },
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: 'initial',
+                    minChunks: 2,
+                    maxInitialRequests: 5,
+                    minSize: 0
+                },
+                vendor: { // 将第三方模块提取出来
+                    test: /node_modules/,
+                    chunks: 'initial',
+                    name: 'vendor',
+                    priority: 10, // 优先
+                    enforce: true
+                }
+            }
+        }
+    }
 })
 console.log('环境',process.env.NODE_ENV);
 if(isDev){

@@ -1,6 +1,12 @@
 import React,{PureComponent} from 'react';
+import {
+    observer,
+    inject,
+} from 'mobx-react'
 
-export default class TopicDetail extends PureComponent{
+@inject('appState') @observer
+export default class TopicDetail extends React.Component{
+
 
     render(){
         return [

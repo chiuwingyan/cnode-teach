@@ -7,6 +7,7 @@ const config = webpackMerge(baseConfig,{
     entry:{
         app:path.join(__dirname,'../client/server-entry.js')
     },
+    externals: Object.keys(require('../package.json').dependencies),
     output:{
         filename:'server-entry.js',
         libraryTarget :'commonjs2'  //打包出来的文件使用哪种规范，这里使用的是commonjs2的规范

@@ -23,12 +23,15 @@ const vm = require('vm')
 const getModuleFromString = (bundle, filename) => {
     const m = { exports: {} }
     const wrapper = NativeModule.wrap(bundle)
-    const script = new vm.Script(wrapper, {
-        filename: filename,
+    const script = new vm.Script(wrapper, {         //创建一个新的脚本编译代码，但是不运行。
+        filename: filename,                         
         displayErrors: true,
     })
-    const result = script.runInThisContext()
+  //  console.log('script',script)
+    const result = script.runInThisContext()        //执行编译过的脚本并返回结果。被运行的代码没有本地作用域访问权限，但是拥有权限访问全局对象。
+    //console.log('result', result)
     result.call(m.exports, m.exports, require, m)
+    console.log('m',m)
     return m
 }
  

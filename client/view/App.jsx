@@ -11,9 +11,14 @@ import {
     observer,
     inject,
 } from 'mobx-react'
+import MainAppBar from './layout/app-bar'
 
-
-@inject('appState') @observer
+@inject(stores => {
+    return {
+        appState: stores.appState,         //stores是一个对象，包括我们在Provider传的所有值
+       // topicStore: stores.TopicStore
+    }
+}) @observer
  class App extends React.Component {
     componentDidMount() {
         // do something here
@@ -33,23 +38,19 @@ import {
         console.log('update',this.props)
     }
      bootstrap() {
-         return new Promise((resolve) => {
-             setTimeout(() => {
-                 this.props.appState.count = 3
-                 resolve(true)
-             })
-         })
+        //  return new Promise((resolve) => {
+        //      setTimeout(() => {
+        //          this.props.appState.count = 3
+        //          resolve(true)
+        //      })
+        //  })
      }
     render(){
-        return(
-            <div className="app">
-             
-                    <Link to="/">首页</Link>
-                    <Link to="/detail">详情页</Link>
-                
-                <Routes />
-            </div>
-        )
+        return[
+            <MainAppBar />,
+            <Routes />
+        ]
+            
     }
 }
 

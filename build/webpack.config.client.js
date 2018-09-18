@@ -51,6 +51,7 @@ const config = webpackMerge(baseConfig,{
 })
 console.log('环境',process.env.NODE_ENV);
 if(isDev){
+    config.devtool = '#cheap-module-eval-source-map'
     config.mode ='development'
     config.entry = {
         app: [
@@ -60,7 +61,7 @@ if(isDev){
       }
       config.devServer = {
         port: '8888',
-        contentBase: path.join(__dirname,'../dist'),
+        //contentBase: path.join(__dirname,'../dist'),
         hotOnly:true,
 
         overlay: {

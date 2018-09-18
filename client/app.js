@@ -5,10 +5,10 @@ import {BrowserRouter} from 'react-router-dom'
 import { Provider } from 'mobx-react'
 import {AppContainer} from 'react-hot-loader';
 import { createStoreMap } from './store/store'
-import AppState from 'store/App-state'
+import { AppState, TopicStore} from './store/store'
 
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import { lightBlue, pink } from 'material-ui/colors'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { lightBlue, pink } from '@material-ui/core/colors'
 
 //console.log('环境',process.env.NODE_ENV);
 
@@ -25,6 +25,7 @@ const theme = createMuiTheme({
         }
     }
 })
+
 const root = document.getElementById('root');
 const initialState = window.__INITIAL__STATE__ || {} 
 
@@ -43,11 +44,13 @@ const createApp = (TheApp) => {
     }
     return Main
 }
+const appState = new AppState(initialState.appState);
+const topicStore = new TopicStore(initialState.topicStore);
 const render = Component => {
     //const renderMethod = module.hot ? ReactDom.render : ReactDom.hydrate;
     ReactDom.hydrate(
         <AppContainer>
-        <Provider appState={new AppState(initialState.appState)}>
+        <Provider appState={appState} TopicStore={topicStore}>
         <BrowserRouter>
             <MuiThemeProvider theme={theme}>
                 <Component />  

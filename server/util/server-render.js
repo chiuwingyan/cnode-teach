@@ -7,12 +7,13 @@ const Helmet = require('react-helmet').default
 const SheetsRegistry = require('react-jss').SheetsRegistry
 const create = require('jss').create
 const preset = require('jss-preset-default').default
-const createMuiTheme = require('material-ui/styles').createMuiTheme
-const createGenerateClassName = require('material-ui/styles/createGenerateClassName').default
-const colors = require('material-ui/colors')
+const createMuiTheme = require('@material-ui/core/styles').createMuiTheme
+const createGenerateClassName = require('@material-ui/core/styles/createGenerateClassName').default
+const colors = require('@material-ui/core/colors')
 
 const getStoreState = (stores) => {
     return Object.keys(stores).reduce((result, storeName) => {
+        console.log('stores', stores[storeName])
         result[storeName] = stores[storeName].toJson()
         return result
     }, {})
@@ -43,13 +44,13 @@ module.exports = (bundle,template,req,res) => {
                 res.end()
                 return
             }
-            console.log('stires', stores.appState.count)
+           // console.log('stires', stores.appState.count)
             const helmet = Helmet.rewind()
             const state = getStoreState(stores)
             const content = ReactDomServer.renderToString(App);
             //res.send(template.replace('<!--app-->', content))
             // console.log('helmet', new helmet())
-            console.log('initialState', state)
+         //   console.log('initialState', state)
             const html = ejs.render(template, {
                 appString: content,
                 initialState: serialize(state),

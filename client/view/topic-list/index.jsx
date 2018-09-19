@@ -6,7 +6,9 @@ import {
     inject,
 } from 'mobx-react'
 import Helmet from 'react-helmet'
-import { withRouter } from "react-router-dom";
+import queryString from 'query-string'
+import { hashHistory } from 'react-router'
+import { withRouter } from "react-router-dom"
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import Tabs from '@material-ui/core/Tabs'
@@ -30,12 +32,42 @@ class TopicList extends React.Component{
     }
     componentDidMount() {
         // do something here
-        this.props.topicStore.fetchTopics()
+        this._fetchList(this._getTab())
+     //   console.log('location', this.props.location)
     }
-    _changeTab = (e,index) => {
-        this.setState({
-            tabIndex:index
-        })
+     componentWillReceiveProps(nextProps){
+        //  if(nextProps.location.query.tab != this.props.location.query.tab){
+        //      console.log('no')
+        //  }
+
+     }
+    _getTab(){          //获取参数
+        const {
+            location
+        } = this.props
+        const {tab} = queryString.parse(location.search);
+        return tab;
+    }
+    _fetchList(tab){
+        this.props.topicStore.fetchTopics(tab)
+    }
+    _changeTab = (e,tabs) => {      //切换tab事件
+        // this.setState({
+        //     tabIndex:index
+        // })
+        //this.props.history.push("/some/Path");
+        // console.log('tab',tab)
+        // const data ={tab:tab};
+        // const path ={
+        //     pathname:'/list',
+        //     query:data
+        // }
+        this.props.history.push({
+            pathname:'/list',
+            search: `?tab=${tabs}`    //react-router4已经不再支持query持久化，因此要用这种方式进行传参
+        });
+      //  debugger;
+        this._fetchList(tabs)
     }
     _clickItem(){
         console.log('click')
@@ -43,11 +75,11 @@ class TopicList extends React.Component{
     render(){
         const {
             topicStore,
+            location
         } = this.props
-        
-       console.log('props', this.props)
+        const tab = this._getTab();
+      // console.log('props',this.props)
         const topicList = topicStore.topics
-
         return (
             <Container>
           
@@ -55,10 +87,10 @@ class TopicList extends React.Component{
                     <title>this is topic list</title>
                     <meta name="description" content="This is description"/>
                 </Helmet>
-            <Tabs value={} onChange={this._changeTab}>
+            <Tabs value={tab}  onChange={this._changeTab}>
             {
-                Object.keys(tabs).map( tab =>(
-                    <Tab label={tabs[tab]} value={tab}></Tab>
+                Object.keys(tabs).map( t =>(
+                    <Tab label={tabs[t]} value={t} key={t}></Tab>
                 ))
             }
             </Tabs>

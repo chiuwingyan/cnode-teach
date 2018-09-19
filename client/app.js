@@ -33,10 +33,10 @@ const initialState = window.__INITIAL__STATE__ || {}
 const createApp = (TheApp) => {
     class Main extends React.Component{
         componentDidMount(){
-            const jssStyles = document.getElementById('jss-server-side');
-            if(jssStyles && jssStyles.parentNode){
-                jssStyles.parentNode.removeChild(jssStyles);
-            }
+            // const jssStyles = document.getElementById('jss-server-side');
+            // if(jssStyles && jssStyles.parentNode){
+            //     jssStyles.parentNode.removeChild(jssStyles);
+            // }
         }
         render(){
             return <TheApp />

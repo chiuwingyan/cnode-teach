@@ -69,8 +69,10 @@ class TopicList extends React.Component{
       //  debugger;
         this._fetchList(tabs)
     }
-    _clickItem(){
-        console.log('click')
+    _clickItem(topic){
+        this.props.history.push({
+            pathname: `/detail/${topic.id}`,
+        });
     }
     render(){
         const {
@@ -96,7 +98,7 @@ class TopicList extends React.Component{
             </Tabs>
             <List>
                 {
-                        topicList.map(topic => <ListItem onClick={() => this._clickItem()} topic={topic} key={topic.id}/>)
+                        topicList.map(topic => <ListItem onClick={() => this._clickItem(topic)} topic={topic} key={topic.id}/>)
                 }
             </List>
                

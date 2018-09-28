@@ -26,6 +26,7 @@
     "express-session": "^1.15.6",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
+    "marked": "^0.5.1",
     "mobx": "^5.0.4",
     "mobx-react": "^5.2.5",
     "query-string": "^6.1.0",

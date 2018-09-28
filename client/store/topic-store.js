@@ -14,15 +14,20 @@ class Topic{
 }
 
 export default class TopicStore {
-    constructor({ syncing, topics } = { syncing: false, topics: [] }) {
+    @observable topics
+    @observable details
+    @observable syncing
+
+    constructor({ syncing = false, topics = [], details = [] }) {
         this.syncing = syncing
         this.topics = topics.map(topic => new Topic(topic))
+        this.details = details.map(topic => new Topic(topic))
     }
-    @observable topics
-    @observable syncing
+
     addTopic(topic){
         this.topics.push(new Topic(topic))
     }
+    //获取话题列表
     @action fetchTopics(tab){
         return new Promise((resolve,reject) => {
             this.syncing = true
@@ -45,6 +50,14 @@ export default class TopicStore {
             })
         })
     }
+
+    //获取话题详情
+    @action getTopicDetail(id){
+        return new Promise((resolve,reject) => {
+
+        })
+    }
+
     toJson() {
         return {
             syncing: this.syncing,

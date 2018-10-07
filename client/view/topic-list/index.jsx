@@ -16,6 +16,7 @@ import Tab from '@material-ui/core/Tab'
 import Container from 'view/layout/container'
 import List from '@material-ui/core/List'
 import ListItem from './list-item'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { tabs } from '../../util/variable-define'
  @inject(stores => {
      return {
@@ -32,8 +33,19 @@ class TopicList extends React.Component{
     }
     componentDidMount() {
         // do something here
-        this._fetchList(this._getTab())
+       // this._fetchList(this._getTab())
      //   console.log('location', this.props.location)
+    }
+     bootstrap() {
+            const query = queryString.parse(this.props.location.search);
+            const { tab } = query
+            return this.props.topicStore.fetchTopics(tab || 'all').then(() => {
+                    return true;
+                }).catch(() => {
+                   return false;
+                })
+            
+        
     }
      componentWillReceiveProps(nextProps){
         //  if(nextProps.location.query.tab != this.props.location.query.tab){
@@ -82,30 +94,52 @@ class TopicList extends React.Component{
         const tab = this._getTab();
       // console.log('props',this.props)
         const topicList = topicStore.topics
-        return (
-            <Container>
-          
-                <Helmet>
-                    <title>this is topic list</title>
-                    <meta name="description" content="This is description"/>
-                </Helmet>
-            <Tabs value={tab}  onChange={this._changeTab}>
-            {
-                Object.keys(tabs).map( t =>(
-                    <Tab label={tabs[t]} value={t} key={t}></Tab>
-                ))
-            }
-            </Tabs>
-            <List>
-                {
-                        topicList.map(topic => <ListItem onClick={() => this._clickItem(topic)} topic={topic} key={topic.id}/>)
-                }
-            </List>
-               
-            </Container>
-        )
-           
-        
+        const { createTopics } = topicStore
+        const { user } = this.props.appState
+        if (!topicList){
+            return (
+                <Container>
+                    <section>
+                        <CircularProgress color="accent" />
+                    </section>
+                </Container>
+            )
+        }else{
+            return (
+                <Container>
+
+                    <Helmet>
+                        <title>this is topic list</title>
+                        <meta name="description" content="This is description" />
+                    </Helmet>
+                    <Tabs value={tab} onChange={this._changeTab}>
+                        {
+                            Object.keys(tabs).map(t => (
+                                <Tab label={tabs[t]} value={t} key={t}></Tab>
+                            ))
+                        }
+                    </Tabs>
+                    <List style={{background:'#dfdfdf'}}>
+                        {
+                            createTopics.map( topic => {
+                                topic = Object.assign({},topic,{
+                                    author:user.info
+                                })
+                                return (
+                                    <ListItem onClick={() => this._clickItem(topic)} topic={topic} key={topic.id} />
+                            )})
+                            
+                        }
+                    </List>
+                    <List>
+                        {
+                            topicList.map(topic => <ListItem onClick={() => this._clickItem(topic)} topic={topic} key={topic.id} />)
+                        }
+                    </List>
+
+                </Container>
+            )
+        }        
     }
 }
 

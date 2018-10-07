@@ -16,13 +16,13 @@ export default class TestApi extends React.Component {
 
     login() {
         axios.post('/api/user/login', {
-            accessToken: 'f3535a78-1fd7-4221-9961-638158e7d72e'
+            accessToken: '7547dbed-584b-4924-b9b8-aee9e5738679'
         }).then(resp => {
             console.log(resp)
         }).catch(err => {
             console.log(err)
         })
-    }
+    } 
 
     markAll() {
         axios.post('/api/message/mark_all?needAccessToken=true')

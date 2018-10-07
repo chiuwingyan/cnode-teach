@@ -8,11 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "启动程序",
-            "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run-script","dev:server"
-                        ],
+            "program": "${file}"
         }
     ]
 }

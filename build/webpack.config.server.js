@@ -14,7 +14,7 @@ const config = webpackMerge(baseConfig,{
     },
     plugins:[
         new webpack.DefinePlugin({
-            'process.env.API_BASE':'"127.0.0.1:3000"'
+            'process.env.API_BASE':'"127.0.0.1:3333"'
         })
     ],
     mode:'development',       //在webpack4当中，此配置是必需的.development为开发环境，production为生产环境

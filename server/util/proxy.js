@@ -8,9 +8,10 @@ module.exports = function (req, res, next) {
     const path = req.path
     const user = req.session.user || {}
     const needAccessToken = req.query.needAccessToken
-    console.log('user', querystring.stringify(Object.assign({}, req.body, {
-        accesstoken: user.accessToken
-    })));
+   // console.log('body',req.body)
+    // console.log('user', querystring.stringify(Object.assign({}, req.body, {
+    //     accesstoken: user.accessToken
+    // })));
     if (needAccessToken && !user.accessToken) {
         res.status(401).send({
             success: false,
@@ -33,7 +34,7 @@ module.exports = function (req, res, next) {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     }).then(resp => {
-        //console.log('resp',resp)
+        console.log('resp',resp)
         if (resp.status === 200) {
             res.send(resp.data)
         } else {

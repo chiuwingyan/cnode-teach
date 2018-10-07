@@ -2,31 +2,81 @@ import {
     observable,
     computed,
     autorun,
+    toJS,
     action,
 } from 'mobx'
-
+import login from '../view/user/login';
+import { post,get } from '../util/fetch'
 export default class AppState {
-    constructor({count,name} = {count:0,name:'bb'}){
-        this.count=count
-        this.name=name
-    }
-    @observable count       
-    @observable name 
-    @computed get msg(){
-        return `${this.name} say count is ${this.count}`
-    }
-    @action add() {
-        this.count += 1
-    }
-    @action changeName(name){
-        this.name = name
+    @observable user = {
+        isLogin:false,
+        info:{},
+        detail:{
+            recentTopics:[],
+            recentReplies:[],
+            syncing:false,
+        },
+        collections:{
+            list:[],
+            syncing:false,
+        }
     }
 
-    //此方法用于ssr服务端渲染时调用，获取当前服务端渲染时的store状态，注入到客户端，使得服务端和客户端的store可以同步
+    @action login(accessToken){
+        return new Promise((resolve,reject) => {
+            post('/api/user/login',{
+                accessToken
+            }).then((resp) => {
+                if (resp.success){
+                    this.user.isLogin = true
+                    this.user.info = resp.data
+                    resolve()
+                }else{
+                    reject(resp)
+                }
+            }).catch(reject)
+        })
+    }
+    @action getUserDetail(){
+        this.user.detail.syncing = true;
+        return new Promise((resolve,reject) => {
+            get(`/api/user/${this.user.info.loginname}`)
+            .then((resp) => {
+                if(resp.success){
+                    this.user.detail.recentTopics = resp.data.recent_topics
+                    this.user.detail.recentReplies = resp.data.recent_replies
+                    resolve()
+                }else{
+                    reject()
+                }
+                this.user.detail.syncing = false
+            }).catch((err) => {
+                this.user.detail.syncing = false
+                reject(err)
+            })
+        })
+    }
+    @action getUserCollection() {
+        this.user.collections.syncing = true;
+        return new Promise((resolve, reject) => {
+            get(`/api/topic_collect/${this.user.info.loginname}`)
+                .then((resp) => {
+                    if (resp.success) {
+                        this.user.collections.list = resp.data
+                        resolve()
+                    } else {
+                        reject()
+                    }
+                    this.user.collections.syncing = false
+                }).catch((err) => {
+                    this.user.collections.syncing = false
+                    reject(err)
+                })
+        })
+    }
     toJson(){
-        return {
-            count:this.count,
-            name:this.name
+        return{
+            user: toJS(this.user)
         }
     }
 

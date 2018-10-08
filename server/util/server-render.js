@@ -1,6 +1,6 @@
 const serialize = require('serialize-javascript')
 const ejs = require('ejs')
-const asyncBootstrap = require('react-async-bootstrapper')
+const bootstrapper = require('react-async-bootstrapper')
 const ReactDomServer = require('react-dom/server')
 const Helmet = require('react-helmet').default
 
@@ -37,7 +37,7 @@ module.exports = (bundle,template,req,res) => {
             }
         })
         const App = createApp(stores, routerContext, sheetsRegistry, jss, theme, req.url) 
-        asyncBootstrap(App).then(() => {
+        bootstrapper(App).then(() => {
             //bootstrap异步方法执行完毕后，执行完余下的渲染方法后，执行此回调。此时的App就是已经插好值的
             if (routerContext.url) {
                 res.status(302).setHeader('Location', routerContext.url);

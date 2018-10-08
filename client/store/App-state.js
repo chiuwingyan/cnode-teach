@@ -21,6 +21,7 @@ export default class AppState {
             syncing:false,
         }
     }
+    @observable count = 0
 
     @action login(accessToken){
         return new Promise((resolve,reject) => {
@@ -76,7 +77,8 @@ export default class AppState {
     }
     toJson(){
         return{
-            user: toJS(this.user)
+            user: toJS(this.user),
+            count:this.count
         }
     }
 

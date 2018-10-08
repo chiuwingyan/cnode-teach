@@ -6,7 +6,7 @@ export const get = (url,param) => {
     //console.log('url',url)
     let params = param || {}
     return new Promise ((resolve,reject) => {
-        
+        console.log('axios')
         axios({
             method:'get',
             url,

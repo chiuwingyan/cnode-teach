@@ -62,7 +62,7 @@ export default class TopicStore {
            // console.log('syncing', this.syncing)
             this.syncing = true
             this.topics= []
-            get('/api/topics',{
+            get('https://cnodejs.org/api/v1/topics',{
                 mdrender:false,
                 tab:tab
             }).then(resp => {
@@ -89,7 +89,7 @@ export default class TopicStore {
             if(this.detailMap[id]){
               resolve(this.detailMap[id])  
             }else{
-                get(`/api/topic/${id}`,{
+                get(`https://cnodejs.org/api/v1/topic/${id}`,{
                     mdrender:false
                 }).then(resp => {
                     if(resp.success){

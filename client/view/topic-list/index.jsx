@@ -1,6 +1,6 @@
 import React,{PureComponent} from 'react';
 // import ReactDOM from 'react-dom';
-
+import axios from 'axios'
 import {
     observer,
     inject,
@@ -32,13 +32,30 @@ class TopicList extends React.Component{
         }
     }
     componentDidMount() {
-        // do something here
-       // this._fetchList(this._getTab())
-     //   console.log('location', this.props.location)
+        // const query = queryString.parse(this.props.location.search);
+        // const { tab } = query
+        // return this.props.topicStore.fetchTopics(tab || 'all').then(() => {
+        //     return true;
+        // }).catch(() => {
+        //     return false;
+        // })
     }
      bootstrap() {
             const query = queryString.parse(this.props.location.search);
             const { tab } = query
+    //      axios({
+    //          method: 'get',
+    //          url:'https://127.0.0.1:3333/api/topics',
+    //          params:{
+    //              mdrender: false,
+    //              tab: 'all'
+    //          },
+    //      }).then((resp) => {
+    //          console.log('resp1', resp)
+
+    //      }).catch((err) => {
+    //         console.log('err',err)
+    //  })
             return this.props.topicStore.fetchTopics(tab || 'all').then(() => {
                     return true;
                 }).catch(() => {

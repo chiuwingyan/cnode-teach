@@ -6,7 +6,7 @@ import { Provider } from 'mobx-react'
 import {AppContainer} from 'react-hot-loader';
 import { createStoreMap } from './store/store'
 import { AppState, TopicStore} from './store/store'
-
+import asyncBootstrapper from 'react-async-bootstrapper'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { lightBlue, pink } from '@material-ui/core/colors'
 
@@ -45,9 +45,11 @@ const createApp = (TheApp) => {
     return Main
 }
 const appState = new AppState(initialState.appState);
-const topicStore = new TopicStore(initialState.topicStore);
+const topicStore = new TopicStore(initialState.TopicStore);
+//console.log('topicStore', topicStore)
 const render = Component => {
     //const renderMethod = module.hot ? ReactDom.render : ReactDom.hydrate;
+    // ReactDom.hydrate(
     ReactDom.hydrate(
         <AppContainer>
         <Provider appState={appState} TopicStore={topicStore}>
@@ -58,10 +60,10 @@ const render = Component => {
         </BrowserRouter>
         </Provider>
         </AppContainer>
-    ,root);
+        , root);
 }
-render(createApp(App));
 
+render(createApp(App));
 if(module.hot){
     module.hot.accept(() => {
         const NextApp = require('view/App').default;

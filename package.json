@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:client": "NODE_ENV=production webpack --config build/webpack.config.client.js --mode production",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js --mode production",
     "build:server": "webpack --config build/webpack.config.server.js",
     "dev:client": "cross-env NODE_ENV=development  webpack-dev-server --config build/webpack.config.client.js --mode development",
     "dev:server": "nodemon server/server.js",
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
-    "start": "cross-env NODE_ENV=production node server/server.js"
+    "start": "nodemon server/server.js"
   },
   "author": "chiuwingyan",
   "license": "ISC",

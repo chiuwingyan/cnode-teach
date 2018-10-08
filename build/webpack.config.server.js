@@ -13,9 +13,9 @@ const config = webpackMerge(baseConfig,{
         libraryTarget :'commonjs2'  //打包出来的文件使用哪种规范，这里使用的是commonjs2的规范
     },
     plugins:[
-        new webpack.DefinePlugin({
-            'process.env.API_BASE':'"127.0.0.1:3333"'
-        })
+        // new webpack.DefinePlugin({
+        //     'process.env.API_BASE':'"127.0.0.1:3333"'
+        // })
     ],
     mode:'development',       //在webpack4当中，此配置是必需的.development为开发环境，production为生产环境
 })

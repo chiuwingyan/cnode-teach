@@ -23,7 +23,8 @@ app.use(favicon(path.join(__dirname, '../favicon.ico')))
 
 app.use('/api/user', require('./util/handle-login'))
 app.use('/api', require('./util/proxy'))
-
+//app.use('/', require('./util/proxy'))
+console.log('test',app)
 if(!isDev){
    const serverEntry = require('../dist/server-entry')  //由于打包生成的是commonjs2的规范，虽然中间引入default
     const template = fs.readFileSync(path.join(__dirname,'../dist/server.ejs'),'utf8')     //把打包生产的index.html读进来
@@ -33,6 +34,7 @@ if(!isDev){
 
 })
 }else{
+    console.log('5555')
     const devStatic = require('./util/dev-static');
     devStatic(app);
 }

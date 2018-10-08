@@ -53,8 +53,7 @@ class UserLogin extends React.Component {
         this.setState({
             helpText:''
         })
-        return this.props.appState.login(this.state.accesstoken)
-            .catch((error) => {
+        return this.props.appState.login(this.state.accesstoken).catch((error) => {
                 console.log(error)
             })
     }
@@ -63,7 +62,7 @@ class UserLogin extends React.Component {
         const from = this.getFrom()
         const {isLogin} = this.props.user
 
-        if(isLogin){
+        if (isLogin && this.props.user.info.loginname){
             return <Redirect to={from} />
         }
 

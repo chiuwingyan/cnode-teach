@@ -44,7 +44,8 @@ const createApp = (TheApp) => {
     }
     return Main
 }
-const appState = new AppState(initialState.appState);
+const appState = new AppState();
+appState.init(initialState.appState);
 const topicStore = new TopicStore(initialState.TopicStore);
 //console.log('topicStore', topicStore)
 const render = Component => {

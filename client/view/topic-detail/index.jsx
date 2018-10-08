@@ -30,17 +30,17 @@ class TopicDetail extends React.Component{
         }
     }
     componentDidMount(){
-    //    const id = this._getId();
-    //     this.props.topicStore.getTopicDetail(id);
+       const id = this._getId();
+        this.props.topicStore.getTopicDetail(id);
     }
-    bootstrap(){
-        const id = this._getId();
-        return this.props.topicStore.getTopicDetail(id).then(() => {
-            return true
-        }).catch(() => {
-            return false
-        });
-    }
+    // bootstrap(){
+    //     const id = this._getId();
+    //     return this.props.topicStore.getTopicDetail(id).then(() => {
+    //         return true
+    //     }).catch(() => {
+    //         return false
+    //     });
+    // }
     _getId(){
         return this.props.match.params.id;
     }

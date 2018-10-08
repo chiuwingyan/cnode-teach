@@ -11,7 +11,7 @@ router.post('/login',function (req,res,next) {
         if(resp.status === 200 && resp.data.success){
             req.session.user = {
                 accessToken:req.body.accessToken,
-                loginName: resp.data.loginname,
+                loginname: resp.data.loginname,
                 id: resp.data.id,
                 avatarUrl: resp.data.avatar_url
             }

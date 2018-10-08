@@ -21,9 +21,15 @@ export default class AppState {
             syncing:false,
         }
     }
-    @observable count = 0
-
+    // @observable count = 0
+    init({user}){
+        if(user){
+            this.user.isLogin = user.isLogin
+            this.user.info = user.info
+        }
+    }
     @action login(accessToken){
+       
         return new Promise((resolve,reject) => {
             post('/api/user/login',{
                 accessToken
@@ -39,6 +45,7 @@ export default class AppState {
         })
     }
     @action getUserDetail(){
+        console.log('loginname', this.user.info)
         this.user.detail.syncing = true;
         return new Promise((resolve,reject) => {
             get(`/api/user/${this.user.info.loginname}`)
@@ -77,8 +84,7 @@ export default class AppState {
     }
     toJson(){
         return{
-            user: toJS(this.user),
-            count:this.count
+            user: toJS(this.user)
         }
     }
 

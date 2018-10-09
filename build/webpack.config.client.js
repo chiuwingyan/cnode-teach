@@ -76,6 +76,34 @@ if(isDev){
         }
       }
       config.plugins.push(new webpack.HotModuleReplacementPlugin())
+}else{
+    config.mode = 'production';
+    config.entry = {
+        app:path.join(__dirname,'../client/app.js'),
+        vendor:[
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'mobx',
+            'mobx-react',
+            'axios',
+            'query-string',
+            'dateformat',
+            'marked'
+        ]
+    };
+    config.output.filename = '[name].[chunkhash].js';   //使用chunkhash是因为如果entry有多个文件，hash值是为这个entry文件的，而不是根据这个工程的
+    config.plugins.push(
+        new webpack.optimize.SplitChunksPlugin({
+            chunks: "all",
+            minSize: 20000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            name: true
+        })
+
+    )
 }
 
 module.exports = config;

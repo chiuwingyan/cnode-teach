@@ -10,17 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import HomeIcon from '@material-ui/icons/Home'
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { withRouter } from "react-router-dom"
-const styles = {
-    root:{
-        width:'100%'
-    },
-    flex:{
-        flex:1
-    },
-    btn:{
-        marginRight:'10px'
-    }
-}
+import { appBar} from './styles'
 
 import {
     observer,
@@ -87,4 +77,4 @@ class MainAppBar extends React.Component{
     }
 }
 
-export default withRouter(withStyles(styles)(MainAppBar));
+export default withRouter(withStyles(appBar)(MainAppBar));

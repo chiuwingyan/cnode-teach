@@ -47,8 +47,8 @@ import MainAppBar from './layout/app-bar'
     //  }
     render(){
         return[
-            <MainAppBar />,
-            <Routes />
+            <MainAppBar key="main"/>,
+            <Routes key="route"/>
         ]
             
     }
